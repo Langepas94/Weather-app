@@ -7,6 +7,9 @@
 
 import Foundation
 import UIKit
+import CoreLocation
+
+
 
 enum ResultError: Error {
     case invalidUrl
@@ -14,10 +17,23 @@ enum ResultError: Error {
 }
 
 class NetworkManager {
-    private let apiKey = "7af63772b9ed73068bec766f73b1724c"
-
-    func fetchData(completion: @escaping(Result<DataModel, Error>) -> Void) {
-       guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?q=Langepas&appid=\(apiKey)&units=metric") else {
+    enum RequestType {
+        case city(city: String)
+        case location(latitude: CLLocationDegrees, longitude: CLLocationDegrees)
+    }
+    
+    func fetchData(requestType: RequestType ,completion: @escaping(Result<DataModel, Error>) -> Void) {
+        
+        var urlString = ""
+        
+        switch requestType {
+        case .city(let city):
+            urlString = "https://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=\(apiKey)&units=metric"
+        case .location(let latitude, let longitude):
+            urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&apikey=\(apiKey)&units=metric"
+        }
+        
+       guard let url = URL(string: urlString) else {
             completion(.failure(ResultError.invalidUrl))
                     return
                 }
