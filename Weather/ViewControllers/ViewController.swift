@@ -8,9 +8,9 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
     private let background = Background().bgImage
     private let nt = NetworkManager()
-    
     private let weatherTempLabel: UILabel = {
         let weatherLabel = UILabel()
         weatherLabel.font = Res.Fonts.americanTypewriterBold(with: 108)
@@ -18,6 +18,7 @@ class ViewController: UIViewController {
         weatherLabel.textColor = .white
         return weatherLabel
     }()
+    
     private let weatherNameLabel: UILabel = {
         let weatherLabel = UILabel()
         weatherLabel.font = Res.Fonts.americanTypewriterBold(with: 48)
@@ -26,31 +27,34 @@ class ViewController: UIViewController {
         weatherLabel.textColor = .white
         return weatherLabel
     }()
+    
     private let weatherFeelLikeLabel: UILabel = {
         let weatherLabel = UILabel()
         weatherLabel.font = Res.Fonts.helveticaregular(with: 22)
         weatherLabel.textColor = .white
         return weatherLabel
     }()
+    
     private let weatherMaxLabel: UILabel = {
         let weatherLabel = UILabel()
         weatherLabel.font = Res.Fonts.helveticaregular(with: 28)
         weatherLabel.textColor = .white
         return weatherLabel
     }()
+    
     private let weatherMinLabel: UILabel = {
         let weatherLabel = UILabel()
         weatherLabel.font = Res.Fonts.helveticaregular(with: 28)
         weatherLabel.textColor = .white
         return weatherLabel
     }()
+    
     private let weatherWindSpeedLabel: UILabel = {
         let weatherLabel = UILabel()
         weatherLabel.font = Res.Fonts.helveticaregular(with: 28)
         weatherLabel.textColor = .white
         return weatherLabel
     }()
-    
     
     private let weatherDescriptionLabel: UILabel = {
         let weatherLabel = UILabel()
@@ -64,7 +68,12 @@ class ViewController: UIViewController {
         return weatherImage
     }()
     
-
+    private let lastTimeOfUpdatedLabel: UILabel = {
+        let weatherLabel = UILabel()
+        weatherLabel.font = Res.Fonts.helveticaregular(with: 12)
+        weatherLabel.textColor = .white
+        return weatherLabel
+    }()
     
     private let tempDescriptionStackView: UIStackView = {
         let stack = UIStackView()
@@ -86,16 +95,20 @@ class ViewController: UIViewController {
         return view
     }()
     
+    private let scrollView: UIScrollView = {
+        let scroll = UIScrollView()
+        return scroll
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupViews()
         setupConstraints()
         network()
-       
+        
     }
-
-
 }
 
 extension ViewController {
@@ -112,6 +125,7 @@ extension ViewController {
         view.addSubview(weatherDescriptionLabel)
         view.addSubview(weatherImage)
         view.addSubview(tempDescriptionStackView)
+        view.addSubview(lastTimeOfUpdatedLabel)
         view.addSubview(minMaxLabelsStackView)
         viewToTemp.addSubview(weatherTempLabel)
         tempDescriptionStackView.addArrangedSubview(viewToTemp)
@@ -122,6 +136,7 @@ extension ViewController {
         minMaxLabelsStackView.addArrangedSubview(weatherMinLabel)
         minMaxLabelsStackView.addArrangedSubview(weatherMaxLabel)
         minMaxLabelsStackView.addArrangedSubview(weatherWindSpeedLabel)
+        
     }
 }
 
@@ -138,13 +153,15 @@ extension ViewController {
         tempDescriptionStackView.translatesAutoresizingMaskIntoConstraints = false
         minMaxLabelsStackView.translatesAutoresizingMaskIntoConstraints = false
         viewToTemp.translatesAutoresizingMaskIntoConstraints = false
+        lastTimeOfUpdatedLabel.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
  
-        
-
         // MARK: - Constraints
         NSLayoutConstraint.activate([
-            weatherNameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            weatherNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Res.InsetsForConstraints.insetTo(.right)),
+            
+            
+            weatherNameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
+            weatherNameLabel.trailingAnchor.constraint(   equalTo: view.trailingAnchor, constant: Res.InsetsForConstraints.insetTo(.right)),
             weatherNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             
             tempDescriptionStackView.topAnchor.constraint(equalTo: weatherNameLabel.topAnchor, constant: 60),
@@ -159,12 +176,16 @@ extension ViewController {
             
             weatherTempLabel.centerXAnchor.constraint(equalTo: weatherNameLabel.centerXAnchor),
             
-            
             weatherImage.topAnchor.constraint(equalTo: weatherDescriptionLabel.topAnchor, constant: 80),
             weatherImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Res.InsetsForConstraints.insetTo(.right)),
             weatherImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Res.InsetsForConstraints.insetTo(.left)),
             weatherImage.widthAnchor.constraint(equalToConstant: 200),
-            weatherImage.heightAnchor.constraint(equalToConstant: 150)
+            weatherImage.heightAnchor.constraint(equalToConstant: 150),
+            
+            lastTimeOfUpdatedLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                                                     constant: -20),
+            lastTimeOfUpdatedLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Res.InsetsForConstraints.insetTo(.left))
+            
         ])
     }
 }
@@ -177,17 +198,29 @@ extension ViewController {
                 DispatchQueue.main.async {
                     print(data)
                     guard let currentWeather = CurrentWeather(currentWeatherData: data) else {return}
-//                    self.weatherTempLabel.text = "\(currentWeather.temperatureString)°C"
                     self.weatherTempLabel.text = currentWeather.temperatureString + "°"
                     self.weatherNameLabel.text = currentWeather.cityName
                     self.weatherFeelLikeLabel.text = "feel like " + currentWeather.feelsLikeString + "°" + "," + " wind: \(currentWeather.windSpeedString) m/s"
                     self.weatherDescriptionLabel.text = currentWeather.description + "," + " max.: \(currentWeather.temperatureMaxString)°, min.: \(currentWeather.temperatureMinString)°"
-//                    self.weatherImage.image = UIImage(systemName: "\(currentWeather.iconNameString)")?.withTintColor(.white, renderingMode: .alwaysOriginal)
-//                    print(currentWeather.iconNameString)
+                   
+                    self.getLastUpdateTime()
+
                 }
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
+    }
+    
+
+}
+
+extension ViewController {
+    func getLastUpdateTime() {
+        let currentTime = Date()
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: currentTime)
+        let minute = calendar.component(.minute, from: currentTime)
+        self.lastTimeOfUpdatedLabel.text = "Last update - \(hour):\(minute)"
     }
 }
