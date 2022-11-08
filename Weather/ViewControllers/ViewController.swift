@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class ViewController: UIViewController {
     
@@ -100,15 +101,72 @@ class ViewController: UIViewController {
         return scroll
     }()
     
+    private var locationManager: CLLocationManager = {
+        let loc = CLLocationManager()
+        loc.desiredAccuracy = kCLLocationAccuracyBest
+        return loc
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupViews()
         setupConstraints()
-        network()
+        
+        locationManager.delegate = self
+        if CLLocationManager.locationServicesEnabled() {
+             locationManager.requestLocation()
+            locationManager.startUpdatingLocation()
+         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        let latitude = location.coordinate.latitude
+        let longitude = location.coordinate.longitude
+        
+        nt.fetchData(requestType: .location(latitude: latitude, longitude: longitude)) { [unowned self] result in
+            switch result {
+                        case .success(let data):
+                            DispatchQueue.main.async {
+                                print(data)
+                                guard let currentWeather = CurrentWeather(currentWeatherData: data) else {return}
+                                self.weatherTempLabel.text = currentWeather.temperatureString + "°"
+                                self.weatherNameLabel.text = currentWeather.cityName
+                                self.weatherFeelLikeLabel.text = "feel like " + currentWeather.feelsLikeString + "°" + "," + " wind: \(currentWeather.windSpeedString) m/s"
+                                self.weatherDescriptionLabel.text = currentWeather.description + "," + " max.: \(currentWeather.temperatureMaxString)°, min.: \(currentWeather.temperatureMinString)°"
+            
+                                self.getLastUpdateTime()
+            
+                            }
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        
+        }
+        }
         
     }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+           switch manager.authorizationStatus {
+           case .authorizedAlways:
+               return
+           case .authorizedWhenInUse:
+               return
+           case .denied:
+               return
+           case .restricted:
+               locationManager.requestWhenInUseAuthorization()
+           case .notDetermined:
+               locationManager.requestWhenInUseAuthorization()
+           default:
+               locationManager.requestWhenInUseAuthorization()
+           }
+       }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+           print(error)
+       }
 }
 
 extension ViewController {
@@ -191,24 +249,45 @@ extension ViewController {
 }
 
 extension ViewController {
+//    func network() {
+//        nt.fetchData { [unowned self] result in
+//            switch result {
+//            case .success(let data):
+//                DispatchQueue.main.async {
+//                    print(data)
+//                    guard let currentWeather = CurrentWeather(currentWeatherData: data) else {return}
+//                    self.weatherTempLabel.text = currentWeather.temperatureString + "°"
+//                    self.weatherNameLabel.text = currentWeather.cityName
+//                    self.weatherFeelLikeLabel.text = "feel like " + currentWeather.feelsLikeString + "°" + "," + " wind: \(currentWeather.windSpeedString) m/s"
+//                    self.weatherDescriptionLabel.text = currentWeather.description + "," + " max.: \(currentWeather.temperatureMaxString)°, min.: \(currentWeather.temperatureMinString)°"
+//
+//                    self.getLastUpdateTime()
+//
+//                }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
+//    }
+    
     func network() {
-        nt.fetchData { [unowned self] result in
+        nt.fetchData(requestType: .city(city: "Langepas")) { [unowned self] result in
             switch result {
-            case .success(let data):
-                DispatchQueue.main.async {
-                    print(data)
-                    guard let currentWeather = CurrentWeather(currentWeatherData: data) else {return}
-                    self.weatherTempLabel.text = currentWeather.temperatureString + "°"
-                    self.weatherNameLabel.text = currentWeather.cityName
-                    self.weatherFeelLikeLabel.text = "feel like " + currentWeather.feelsLikeString + "°" + "," + " wind: \(currentWeather.windSpeedString) m/s"
-                    self.weatherDescriptionLabel.text = currentWeather.description + "," + " max.: \(currentWeather.temperatureMaxString)°, min.: \(currentWeather.temperatureMinString)°"
-                   
-                    self.getLastUpdateTime()
-
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+                        case .success(let data):
+                            DispatchQueue.main.async {
+                                print(data)
+                                guard let currentWeather = CurrentWeather(currentWeatherData: data) else {return}
+                                self.weatherTempLabel.text = currentWeather.temperatureString + "°"
+                                self.weatherNameLabel.text = currentWeather.cityName
+                                self.weatherFeelLikeLabel.text = "feel like " + currentWeather.feelsLikeString + "°" + "," + " wind: \(currentWeather.windSpeedString) m/s"
+                                self.weatherDescriptionLabel.text = currentWeather.description + "," + " max.: \(currentWeather.temperatureMaxString)°, min.: \(currentWeather.temperatureMinString)°"
+            
+                                self.getLastUpdateTime()
+            
+                            }
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
         }
     }
     
@@ -223,4 +302,9 @@ extension ViewController {
         let minute = calendar.component(.minute, from: currentTime)
         self.lastTimeOfUpdatedLabel.text = "Last update - \(hour):\(minute)"
     }
+}
+
+
+extension ViewController: CLLocationManagerDelegate {
+    
 }
