@@ -10,7 +10,7 @@ import CoreLocation
 
 class ViewController: UIViewController {
     
-    private var background = Background().bgImage
+    private var background = BackgroundSetup().bgImage
     
     private let nt = NetworkManager()
     
@@ -109,6 +109,8 @@ class ViewController: UIViewController {
         let scroll = UIScrollView()
         scroll.alwaysBounceVertical = true
         scroll.bounces  = true
+        scroll.alwaysBounceHorizontal = true
+        scroll.showsHorizontalScrollIndicator = false
         return scroll
     }()
     
@@ -202,16 +204,16 @@ extension ViewController {
             weatherNameLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: Res.InsetsForConstraints.insetTo(.descriptionLeft)),
             
             tempDescriptionStackView.topAnchor.constraint(equalTo: weatherNameLabel.topAnchor, constant: Res.InsetsForConstraints.insetTo(.betweenElementsLarge)),
-            tempDescriptionStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            tempDescriptionStackView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             
             minMaxLabelsStackView.centerYAnchor.constraint(equalTo: weatherTempLabel.centerYAnchor),
-            minMaxLabelsStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Res.InsetsForConstraints.insetTo(.right)),
+            minMaxLabelsStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: Res.InsetsForConstraints.insetTo(.right)),
             
-            viewToTemp.widthAnchor.constraint(equalToConstant: view.frame.width),
+            viewToTemp.widthAnchor.constraint(equalToConstant: scrollView.frame.width),
             viewToTemp.heightAnchor.constraint(equalToConstant: 100),
             viewToTemp.centerXAnchor.constraint(equalTo: weatherNameLabel.centerXAnchor),
             
-            weatherTempLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: 10),
+            weatherTempLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             
             lastTimeOfUpdatedLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                                                            constant: Res.InsetsForConstraints.insetTo(.bottomGrid)),

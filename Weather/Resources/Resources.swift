@@ -9,8 +9,14 @@ import Foundation
 import UIKit
 
 enum Imagess: String, CaseIterable {
-    case background
-
+    case backgroundStandart
+    case backgroundCloudRainBolt
+    case backgroundCloudDrizzle
+    case backgroundCloudRain
+    case backgroundSnow
+    case backgroundSmoke
+    case backgroundSunny
+    case backgroundCloudy
 }
 
 enum Sides: String, CaseIterable {
@@ -27,7 +33,14 @@ enum Res {
     enum Images {
         static func imageFor(_ images: Imagess) -> UIImage? {
             switch images {
-            case .background: return UIImage(named: "dayTheme")
+            case .backgroundStandart: return UIImage(named: "dayTheme")
+            case .backgroundCloudRainBolt: return UIImage(named: "dayTheme")
+            case .backgroundCloudDrizzle: return UIImage(named: "dayTheme")
+            case .backgroundCloudRain: return UIImage(named: "dayTheme")
+            case .backgroundSnow: return UIImage(named: "dayTheme")
+            case .backgroundSmoke: return UIImage(named: "dayTheme")
+            case .backgroundSunny: return UIImage(named: "dayTheme")
+            case .backgroundCloudy: return UIImage(named: "dayTheme")
             }
         }
     }

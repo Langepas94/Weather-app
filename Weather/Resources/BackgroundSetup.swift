@@ -8,11 +8,11 @@
 import Foundation
 import UIKit
 
-final class Background {
+final class BackgroundSetup {
     let bgImage: UIImageView = {
         let background = UIImageView()
 //        background.image = UIImage(named: "dayTheme")
-        background.image = Res.Images.imageFor(.background)
+        background.image = Res.Images.imageFor(.backgroundStandart)
         return background
     }()
     
