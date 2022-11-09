@@ -14,13 +14,16 @@ enum Imagess: String, CaseIterable {
 }
 
 enum Sides: String, CaseIterable {
-    case semiLeft
+    case descriptionLeft
+    case descriptionRight
     case left
     case right
+    case betweenElementsSmall
+    case betweenElementsLarge
+    case bottomGrid
 }
 
 enum Res {
-
     enum Images {
         static func imageFor(_ images: Imagess) -> UIImage? {
             switch images {
@@ -41,9 +44,13 @@ enum Res {
     enum InsetsForConstraints {
         static func insetTo(_ side: Sides ) -> CGFloat {
             switch side {
-            case .semiLeft: return 70
+            case .descriptionLeft: return 10
+            case .descriptionRight: return -10
             case .left: return 15
             case .right: return -15
+            case .betweenElementsSmall: return 10
+            case.bottomGrid: return -20
+            case .betweenElementsLarge: return 50
             }
         }
     }

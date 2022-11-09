@@ -17,6 +17,7 @@ enum ResultError: Error {
 }
 
 class NetworkManager {
+    
     enum RequestType {
         case city(city: String)
         case location(latitude: CLLocationDegrees, longitude: CLLocationDegrees)
