@@ -23,6 +23,10 @@
 		44B49C38291BC9BE00A5FFAB /* ViewWithTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B49C37291BC9BE00A5FFAB /* ViewWithTableViewController.swift */; };
 		44B49C3B291BEDF900A5FFAB /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B49C3A291BEDF900A5FFAB /* TableViewController.swift */; };
 		44B49C3D291BF81100A5FFAB /* WeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B49C3C291BF81100A5FFAB /* WeatherCell.swift */; };
+		44B49C3F291CEA1600A5FFAB /* CitySearchAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B49C3E291CEA1600A5FFAB /* CitySearchAlertController.swift */; };
+		44B49C43291CEBD200A5FFAB /* TableNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B49C42291CEBD200A5FFAB /* TableNavigationBar.swift */; };
+		44B49C49291E58A400A5FFAB /* AlertControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B49C48291E58A400A5FFAB /* AlertControllerExtension.swift */; };
+		44B49C4B291E64E300A5FFAB /* CityMassiv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B49C4A291E64E300A5FFAB /* CityMassiv.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +48,10 @@
 		44B49C37291BC9BE00A5FFAB /* ViewWithTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWithTableViewController.swift; sourceTree = "<group>"; };
 		44B49C3A291BEDF900A5FFAB /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		44B49C3C291BF81100A5FFAB /* WeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCell.swift; sourceTree = "<group>"; };
+		44B49C3E291CEA1600A5FFAB /* CitySearchAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySearchAlertController.swift; sourceTree = "<group>"; };
+		44B49C42291CEBD200A5FFAB /* TableNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableNavigationBar.swift; sourceTree = "<group>"; };
+		44B49C48291E58A400A5FFAB /* AlertControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllerExtension.swift; sourceTree = "<group>"; };
+		44B49C4A291E64E300A5FFAB /* CityMassiv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityMassiv.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +101,7 @@
 				44AB11E42913FE8F0056D78A /* Resources.swift */,
 				44AB11E12913F4710056D78A /* BackgroundSetup.swift */,
 				44AB11F129144E630056D78A /* ApiKey.swift */,
+				44B49C4A291E64E300A5FFAB /* CityMassiv.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -122,6 +131,7 @@
 				44AB11D12913E95E0056D78A /* ViewController.swift */,
 				44B49C35291BC77E00A5FFAB /* TabBarController.swift */,
 				44B49C37291BC9BE00A5FFAB /* ViewWithTableViewController.swift */,
+				44B49C3A291BEDF900A5FFAB /* TableViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -147,8 +157,10 @@
 		44B49C39291BEDE000A5FFAB /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				44B49C3A291BEDF900A5FFAB /* TableViewController.swift */,
 				44B49C3C291BF81100A5FFAB /* WeatherCell.swift */,
+				44B49C3E291CEA1600A5FFAB /* CitySearchAlertController.swift */,
+				44B49C42291CEBD200A5FFAB /* TableNavigationBar.swift */,
+				44B49C48291E58A400A5FFAB /* AlertControllerExtension.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -223,6 +235,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44B49C43291CEBD200A5FFAB /* TableNavigationBar.swift in Sources */,
 				44AB11D22913E95E0056D78A /* ViewController.swift in Sources */,
 				44AB11CE2913E95E0056D78A /* AppDelegate.swift in Sources */,
 				44B49C3B291BEDF900A5FFAB /* TableViewController.swift in Sources */,
@@ -230,6 +243,9 @@
 				44B49C302919403300A5FFAB /* Location.swift in Sources */,
 				44AB11F029144B5A0056D78A /* CurrentWeather.swift in Sources */,
 				44B49C3D291BF81100A5FFAB /* WeatherCell.swift in Sources */,
+				44B49C49291E58A400A5FFAB /* AlertControllerExtension.swift in Sources */,
+				44B49C4B291E64E300A5FFAB /* CityMassiv.swift in Sources */,
+				44B49C3F291CEA1600A5FFAB /* CitySearchAlertController.swift in Sources */,
 				44AB11D02913E95E0056D78A /* SceneDelegate.swift in Sources */,
 				44AB11EE29140F2F0056D78A /* NetworkManager.swift in Sources */,
 				44AB11E52913FE8F0056D78A /* Resources.swift in Sources */,

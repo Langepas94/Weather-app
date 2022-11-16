@@ -29,6 +29,20 @@ enum Sides: String, CaseIterable {
     case bottomGrid
 }
 
+enum CellSides: String, CaseIterable {
+    case topConstraint
+    case leadingConstraint
+    case trailingConstraint
+    case bottomConstraint
+    case betweenHorizontalConstraint
+    case betweenVerticalConstraint
+}
+
+enum StringNames: String, CaseIterable {
+    case mainWeather
+    case weatherList
+}
+
 enum Res {
     enum Images {
         static func imageFor(_ images: Imagess) -> UIImage? {
@@ -64,6 +78,28 @@ enum Res {
             case .betweenElementsSmall: return 10
             case.bottomGrid: return -20
             case .betweenElementsLarge: return 50
+            }
+        }
+    }
+    
+    enum InsetsForCellConstraints {
+        static func insetTo(_ side: CellSides ) -> CGFloat {
+            switch side {
+            case .topConstraint: return 10
+            case .bottomConstraint: return -10
+            case .trailingConstraint: return -15
+            case .leadingConstraint: return 15
+            case .betweenHorizontalConstraint: return 10
+            case .betweenVerticalConstraint: return 20
+            }
+        }
+    }
+    
+    enum setName{
+        static func setName(_ name: StringNames) -> String {
+            switch name {
+            case .mainWeather: return "Main weather"
+            case .weatherList: return "Weather list"
             }
         }
     }

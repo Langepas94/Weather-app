@@ -22,10 +22,11 @@ class TabBarController: UITabBarController  {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBar.backgroundColor = .quaternaryLabel
+        tabBar.backgroundColor = .white.withAlphaComponent(0.5)
         tabBar.tintColor = .white
-       
-        
+        mainController.title = Res.setName.setName(.mainWeather)
+        tableController.title = Res.setName.setName(.weatherList)
+        tabBar.layer.cornerRadius = 10
         setViewControllers([mainController, tableController], animated: true)
         
         

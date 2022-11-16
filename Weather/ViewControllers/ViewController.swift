@@ -126,7 +126,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupViews()
         setupConstraints()
         
@@ -243,6 +242,7 @@ extension ViewController {
                     
                 }
             case .failure(let error):
+                self.weatherTempLabel.text = "Check your internet connection"
                 print(error.localizedDescription)
             }
         }
@@ -284,7 +284,7 @@ extension ViewController: CLLocationManagerDelegate {
                     self.activityIndicator.stopAnimating()
                 }
             case .failure(let error):
-                self.weatherTempLabel.text = " Check your internet connection"
+                self.weatherTempLabel.text = "Check your internet connection"
                 
                 print(error.localizedDescription)
             }
@@ -325,7 +325,7 @@ extension ViewController {
                     
                 }
             case .failure(let error):
-                self.weatherTempLabel.text = " Check your internet connection"
+                self.weatherTempLabel.text = "Check your internet connection"
                 print(error.localizedDescription)
                 }
             }
