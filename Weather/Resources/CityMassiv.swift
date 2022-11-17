@@ -7,4 +7,6 @@
 
 import Foundation
 
-var cityMassivchik = ["Langepas", "Moscow"]
+
+
+var cityMassivchik: [String] = UserDefaults.standard.array(forKey: "Massiv") as! [String]

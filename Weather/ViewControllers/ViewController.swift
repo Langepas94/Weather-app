@@ -10,7 +10,7 @@ import CoreLocation
 
 class ViewController: UIViewController {
     
-    private var background = BackgroundSetup().bgImage
+//    private var background = BackgroundSetup().bgImage
     
     private let nt = NetworkManager()
     
@@ -19,7 +19,8 @@ class ViewController: UIViewController {
         weatherLabel.font = Res.Fonts.americanTypewriterBold(with: 108)
         weatherLabel.textAlignment = .center
         weatherLabel.text = "-"
-        weatherLabel.textColor = .white
+        weatherLabel.textColor = .label
+        weatherLabel.translatesAutoresizingMaskIntoConstraints = false
         return weatherLabel
     }()
     
@@ -28,47 +29,54 @@ class ViewController: UIViewController {
         weatherLabel.font = Res.Fonts.americanTypewriterBold(with: 48)
         weatherLabel.numberOfLines = 1
         weatherLabel.textAlignment = .center
-        weatherLabel.textColor = .white
+        weatherLabel.textColor = .label
+        weatherLabel.translatesAutoresizingMaskIntoConstraints = false
         return weatherLabel
     }()
     
     private let weatherFeelLikeLabel: UILabel = {
         let weatherLabel = UILabel()
         weatherLabel.font = Res.Fonts.helveticaregular(with: 22)
-        weatherLabel.textColor = .white
+        weatherLabel.textColor = .label
+        weatherLabel.translatesAutoresizingMaskIntoConstraints = false
         return weatherLabel
     }()
     
     private let weatherMaxLabel: UILabel = {
         let weatherLabel = UILabel()
         weatherLabel.font = Res.Fonts.helveticaregular(with: 28)
-        weatherLabel.textColor = .white
+        weatherLabel.textColor = .label
+        weatherLabel.translatesAutoresizingMaskIntoConstraints = false
         return weatherLabel
     }()
     
     private let weatherMinLabel: UILabel = {
         let weatherLabel = UILabel()
         weatherLabel.font = Res.Fonts.helveticaregular(with: 28)
-        weatherLabel.textColor = .white
+        weatherLabel.textColor = .label
+        weatherLabel.translatesAutoresizingMaskIntoConstraints = false
         return weatherLabel
     }()
     
     private let weatherWindSpeedLabel: UILabel = {
         let weatherLabel = UILabel()
         weatherLabel.font = Res.Fonts.helveticaregular(with: 28)
-        weatherLabel.textColor = .white
+        weatherLabel.textColor = .label
+        weatherLabel.translatesAutoresizingMaskIntoConstraints = false
         return weatherLabel
     }()
     
     private let weatherDescriptionLabel: UILabel = {
         let weatherLabel = UILabel()
         weatherLabel.font = Res.Fonts.helveticaregular(with: 22)
-        weatherLabel.textColor = .white
+        weatherLabel.textColor = .label
+        weatherLabel.translatesAutoresizingMaskIntoConstraints = false
         return weatherLabel
     }()
     
     private let weatherImage: UIImageView = {
         let weatherImage = UIImageView()
+        weatherImage.translatesAutoresizingMaskIntoConstraints = false
         return weatherImage
     }()
     
@@ -76,6 +84,7 @@ class ViewController: UIViewController {
         let weatherLabel = UILabel()
         weatherLabel.font = Res.Fonts.helveticaregular(with: 12)
         weatherLabel.textColor = .white
+        weatherLabel.translatesAutoresizingMaskIntoConstraints = false
         return weatherLabel
     }()
     
@@ -83,6 +92,7 @@ class ViewController: UIViewController {
         let stack = UIStackView()
         stack.alignment = .center
         stack.axis = .vertical
+        stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
     
@@ -90,11 +100,13 @@ class ViewController: UIViewController {
         let stack = UIStackView()
         stack.alignment = .center
         stack.axis = .vertical
+        stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
     
     private let viewToTemp: UIView = {
         let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -111,6 +123,7 @@ class ViewController: UIViewController {
         scroll.bounces  = true
         scroll.alwaysBounceHorizontal = true
         scroll.showsHorizontalScrollIndicator = false
+        scroll.translatesAutoresizingMaskIntoConstraints = false
         return scroll
     }()
     
@@ -121,6 +134,7 @@ class ViewController: UIViewController {
         indicator.isHidden = false
         indicator.transform = CGAffineTransform(scaleX: 5, y: 5)
         indicator.startAnimating()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
         return indicator
     }()
     
@@ -143,9 +157,10 @@ class ViewController: UIViewController {
 extension ViewController {
     private func setupViews() {
         // MARK: - Add subviews
-        view.addSubview(background)
-        background.frame = view.bounds
+//        view.addSubview(background)
+//        background.frame = view.bounds
         view.addSubview(scrollView)
+        scrollView.backgroundColor = Res.BackgroundColors.setColor(.background)
         scrollView.addSubview(weatherTempLabel)
         scrollView.addSubview(weatherNameLabel)
         scrollView.addSubview(weatherFeelLikeLabel)
@@ -174,21 +189,6 @@ extension ViewController {
 
 extension ViewController {
     func setupConstraints() {
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        weatherTempLabel.translatesAutoresizingMaskIntoConstraints = false
-        weatherNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        weatherFeelLikeLabel.translatesAutoresizingMaskIntoConstraints = false
-        weatherMaxLabel.translatesAutoresizingMaskIntoConstraints = false
-        weatherMinLabel.translatesAutoresizingMaskIntoConstraints = false
-        weatherWindSpeedLabel.translatesAutoresizingMaskIntoConstraints = false
-        weatherDescriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        weatherImage.translatesAutoresizingMaskIntoConstraints = false
-        tempDescriptionStackView.translatesAutoresizingMaskIntoConstraints = false
-        minMaxLabelsStackView.translatesAutoresizingMaskIntoConstraints = false
-        viewToTemp.translatesAutoresizingMaskIntoConstraints = false
-        lastTimeOfUpdatedLabel.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
  
         // MARK: - Constraints
         NSLayoutConstraint.activate([
@@ -222,33 +222,6 @@ extension ViewController {
             activityIndicator.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
         ])
     }
-}
-
-extension ViewController {
-    
-    func network() {
-        nt.fetchData(requestType: .city(city: "Langepas")) { [unowned self] result in
-            switch result {
-            case .success(let data):
-                DispatchQueue.main.async {
-                    print(data)
-                    guard let currentWeather = CurrentWeather(currentWeatherData: data) else {return}
-                    self.weatherTempLabel.text = currentWeather.temperatureString + "°"
-                    self.weatherNameLabel.text = currentWeather.cityName
-                    self.weatherFeelLikeLabel.text = "feel like " + currentWeather.feelsLikeString + "°" + "," + " wind: \(currentWeather.windSpeedString) m/s"
-                    self.weatherDescriptionLabel.text = currentWeather.description + "," + " max.: \(currentWeather.temperatureMaxString)°, min.: \(currentWeather.temperatureMinString)°"
-                    
-                    self.getLastUpdateTime()
-                    
-                }
-            case .failure(let error):
-                self.weatherTempLabel.text = "Check your internet connection"
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-
 }
 
 extension ViewController {

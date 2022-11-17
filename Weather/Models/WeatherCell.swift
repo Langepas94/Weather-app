@@ -8,10 +8,12 @@
 import UIKit
 
 class WeatherCell: UITableViewCell {
+    
     static let identifier = "Cell"
     
     private let weatherIcon: UIImageView = {
         let icon = UIImageView()
+        icon.translatesAutoresizingMaskIntoConstraints = false
         return icon
     }()
     
@@ -19,6 +21,7 @@ class WeatherCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.tintColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -26,18 +29,21 @@ class WeatherCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 35, weight: .bold)
         label.tintColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let weatherMin: UILabel = {
         let label = UILabel()
         label.tintColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let weatherMax: UILabel = {
         let label = UILabel()
         label.tintColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -46,15 +52,15 @@ class WeatherCell: UITableViewCell {
         label.numberOfLines = 2
         label.lineBreakMode = .byWordWrapping
         label.tintColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let viewToIcon: UIView = {
         let view = UIView()
-        
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -69,7 +75,7 @@ class WeatherCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         
-        backgroundColor = UIColor.systemBlue.withAlphaComponent(0.7)
+        backgroundColor = Res.BackgroundColors.setColor(.interfaceView)
         constraints()
     }
     
@@ -84,9 +90,9 @@ class WeatherCell: UITableViewCell {
             self.weatherDescription.text = weatherDescription.text
      }
     
-
-    
-    
+    public func configureError(_ weather: UILabel) {
+        self.weatherName.text = weather.text
+    }
 }
 
 extension WeatherCell {
@@ -99,17 +105,7 @@ extension WeatherCell {
         contentView.addSubview(weatherDescription)
         contentView.addSubview(viewToIcon)
         viewToIcon.addSubview(weatherIcon)
-        weatherTemp.translatesAutoresizingMaskIntoConstraints = false
-        weatherIcon.translatesAutoresizingMaskIntoConstraints = false
-        weatherName.translatesAutoresizingMaskIntoConstraints = false
-        weatherMax.translatesAutoresizingMaskIntoConstraints = false
-        weatherMin.translatesAutoresizingMaskIntoConstraints = false
-        weatherDescription.translatesAutoresizingMaskIntoConstraints = false
-        viewToIcon.translatesAutoresizingMaskIntoConstraints = false
-        
-        
 
-        
         NSLayoutConstraint.activate([
             
             weatherName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Res.InsetsForCellConstraints.insetTo(.leadingConstraint)),
@@ -128,7 +124,8 @@ extension WeatherCell {
             viewToIcon.widthAnchor.constraint(equalTo: weatherTemp.widthAnchor),
             viewToIcon.heightAnchor.constraint(equalTo: weatherTemp.heightAnchor),
             weatherIcon.centerXAnchor.constraint(equalTo: viewToIcon.centerXAnchor),
-            weatherIcon.centerYAnchor.constraint(equalTo: viewToIcon.centerYAnchor),
+//            weatherIcon.centerYAnchor.constraint(equalTo: viewToIcon.centerYAnchor),
+
             weatherIcon.widthAnchor.constraint(equalToConstant: 30),
             weatherIcon.heightAnchor.constraint(equalToConstant: 30)
         ])

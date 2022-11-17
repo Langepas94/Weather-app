@@ -8,6 +8,12 @@
 import Foundation
 import UIKit
 
+enum DesignColors {
+    case background
+    case interfaceView
+    case icon
+}
+
 enum Imagess: String, CaseIterable {
     case backgroundStandart
     case backgroundCloudRainBolt
@@ -91,6 +97,16 @@ enum Res {
             case .leadingConstraint: return 15
             case .betweenHorizontalConstraint: return 10
             case .betweenVerticalConstraint: return 20
+            }
+        }
+    }
+    
+    enum BackgroundColors{
+        static func setColor(_ color: DesignColors) -> UIColor {
+            switch color {
+            case .background: return UIColor(red: 249.0 / 255.0, green: 249.0 / 255.0, blue: 251.0 / 255.0, alpha: 1.0)
+            case .interfaceView: return UIColor.white
+            case .icon: return UIColor(red: 90.0 / 255.0, green: 165.0 / 255.0, blue: 226.0 / 255.0, alpha: 1.0)
             }
         }
     }
